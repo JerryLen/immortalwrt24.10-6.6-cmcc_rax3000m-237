@@ -78,6 +78,12 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        
+        # fix libxcrypt
+        cp libxcrypt-Makefile openwrt/feeds/packages/libs/libxcrypt/Makefile
+        echo "✅ Custom Makefile applied!"
+        ls -l openwrt/feeds/packages/libs/libxcrypt/Makefile
+        
         echo "====================配置文件===================="
         cat  openwrt/.config
         echo "================================================"
@@ -85,10 +91,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
-        # fix libxcrypt
-        cp libxcrypt-Makefile openwrt/feeds/packages/libs/libxcrypt/Makefile
-        echo "✅ Custom Makefile applied!"
-        ls -l openwrt/feeds/packages/libs/libxcrypt/Makefile
+       
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
